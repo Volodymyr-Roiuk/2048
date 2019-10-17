@@ -511,6 +511,8 @@ class Game2048 {
       horisontalResult = this.startX - endX;
     }
 
+    if (horisontalResult === verticalResult) return;
+
     if (horisontalResult > verticalResult) {
       if (this.startX < endX) {
         this.animationRight(58);
