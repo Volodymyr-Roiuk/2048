@@ -514,6 +514,7 @@ class Game2048 {
     if (horisontalResult === verticalResult) return;
 
     if (horisontalResult > verticalResult) {
+      if (horisontalResult - verticalResult < 10) return;
       if (this.startX < endX) {
         this.animationRight(58);
         setTimeout(this.buttonRight.bind(this), 200);       
@@ -522,6 +523,7 @@ class Game2048 {
         setTimeout(this.buttonLeft.bind(this), 200);
       }
     } else {
+      if (verticalResult - horisontalResult < 10) return;
       if (this.startY < endY) {
         this.animationBottom(58);
         setTimeout(this.buttonBottom.bind(this), 200);   
