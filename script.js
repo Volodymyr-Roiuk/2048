@@ -386,22 +386,22 @@ class Game2048 {
   pressKey(event) {
     switch(event.keyCode) {
       case 37: {
-        this.animationLeft();
+        this.animationLeft(115);
         setTimeout(this.buttonLeft.bind(this), 200);
         break;
       }
       case 38: {
-        this.animationTop();
+        this.animationTop(115);
         setTimeout(this.buttonTop.bind(this), 200);
         break;
       }
       case 39: {
-        this.animationRight();
+        this.animationRight(115);
         setTimeout(this.buttonRight.bind(this), 200);
         break;
       }
       case 40: {
-        this.animationBottom();
+        this.animationBottom(115);
         setTimeout(this.buttonBottom.bind(this), 200);
         break;
       }
@@ -513,15 +513,19 @@ class Game2048 {
 
     if (horisontalResult > verticalResult) {
       if (this.startX < endX) {
-        this.buttonRight();        
+        this.animationRight(58);
+        setTimeout(this.buttonRight.bind(this), 200);       
       } else {
-        this.buttonLeft();
+        this.animationLeft(58);
+        setTimeout(this.buttonLeft.bind(this), 200);
       }
     } else {
       if (this.startY < endY) {
-        this.buttonBottom();
+        this.animationBottom(58);
+        setTimeout(this.buttonBottom.bind(this), 200);   
       } else {
-        this.buttonTop();
+        this.animationTop(58);
+        setTimeout(this.buttonTop.bind(this), 200);   
       }
     }
   }
@@ -545,7 +549,7 @@ class Game2048 {
     }
     return arr;
   }
-  animationLeft() {
+  animationLeft(moveWidth) {
     this.setDataValue();
     let animBoard = this.copyArr(this.board);
     let fillDivs = this.getBoardNumbers(animBoard);
@@ -560,24 +564,24 @@ class Game2048 {
           if(rowDivs[0] === row[i]) {
             rowDivs.shift();
             index = row.indexOf(rowDivs.shift(), i + 1);
-            row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * 115}px, 0px);`;
+            row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * moveWidth}px, 0px);`;
             row[index].dataset.value = '';
           } else {
             index = row.indexOf(rowDivs.shift(), i + 1);
-            row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * 115}px, 0px);`;
+            row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * moveWidth}px, 0px);`;
             let buffer = row[i];
             row[i] = row[index];
             row[index] = buffer;
             index = row.indexOf(rowDivs.shift(), i + 1);
             if (index !== -1) {
-              row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * 115}px, 0px);`;
+              row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * moveWidth}px, 0px);`;
             }
           }
         } else if (row[i] === rowDivs[0]) {
           rowDivs.shift();
         } else if(row[i].dataset.value === '' && rowDivs.length > 0) {
           let index = row.indexOf(rowDivs.shift(), i + 1);
-          row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * 115}px, 0px);`;
+          row[index].style.cssText += `transition: transform 0.2s; transform: translate(-${(index - i) * moveWidth}px, 0px);`;
 
           let buffer = row[i];
           row[i] = row[index];
@@ -589,7 +593,7 @@ class Game2048 {
     }
   }
 
-  animationRight() {
+  animationRight(moveWidth) {
     this.setDataValue();
     let animBoard = this.copyArr(this.board);
     let fillDivs = this.getBoardNumbers(animBoard);
@@ -604,24 +608,24 @@ class Game2048 {
           if(rowDivs[rowDivs.length -1] === row[i]) {
             rowDivs.pop();
             index = row.lastIndexOf(rowDivs.pop(), i - 1);
-            row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * 115}px, 0px);`;
+            row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * moveWidth}px, 0px);`;
             row[index].dataset.value = '';
           } else {
             index = row.lastIndexOf(rowDivs.pop(), i - 1);
-            row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * 115}px, 0px);`;
+            row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * moveWidth}px, 0px);`;
             let buffer = row[i];
             row[i] = row[index];
             row[index] = buffer;
             index = row.lastIndexOf(rowDivs.pop(), i - 1);
             if (index !== -1) {
-              row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * 115}px, 0px);`;
+              row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * moveWidth}px, 0px);`;
             }
           } 
         } else if(row[i] === rowDivs[rowDivs.length - 1]) { 
           rowDivs.pop()
         } else if(row[i].textContent === '' && rowDivs.length > 0) {
           let index = row.lastIndexOf(rowDivs.pop(), i - 1);
-          row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * 115}px, 0px);`;
+          row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * moveWidth}px, 0px);`;
 
           let buffer = row[i];
           row[i] = row[index];
@@ -633,7 +637,7 @@ class Game2048 {
     }
   }
 
-  animationTop() {
+  animationTop(moveWidth) {
     this.setDataValue();
     let animBoard = this.copyArr(this.board);
     let verticalBoard = this.getVerticalBoard();
@@ -651,18 +655,18 @@ class Game2048 {
             rowDivs.shift();
             index = verticalBoard[rowC].indexOf(rowDivs.shift(), j + 1);
             verticalBoard[rowC].splice(index, 1, null);
-            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * 115}px);`;
+            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * moveWidth}px);`;
             animBoard[index][i].dataset.value = '';
           } else {
             index = verticalBoard[rowC].indexOf(rowDivs.shift(), j + 1);
             verticalBoard[rowC].splice(index, 1, null);
-            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * 115}px);`;
+            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * moveWidth}px);`;
             let buffer = animBoard[j][i];
             animBoard[j][i] = animBoard[index][i];
             animBoard[index][i] = buffer;
             index = verticalBoard[rowC].indexOf(rowDivs.shift(), j + 2);
             if (index !== -1) {
-              animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * 115}px);`;
+              animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * moveWidth}px);`;
               verticalBoard[rowC].splice(index, 1, null);
             }
           }
@@ -670,7 +674,7 @@ class Game2048 {
           rowDivs.shift();
         } else if(animBoard[j][i].textContent === '' && rowDivs.length > 0) {
           let index = verticalBoard[rowC].indexOf(rowDivs.shift(), j + 1);
-          animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * 115}px);`;
+          animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * moveWidth}px);`;
 
           let buffer = animBoard[j][i];
           animBoard[j][i] = animBoard[index][i];
@@ -683,7 +687,7 @@ class Game2048 {
     }
   }
 
-  animationBottom() {
+  animationBottom(moveWidth) {
     this.setDataValue();
     let animBoard = this.copyArr(this.board);
     let verticalBoard = this.getVerticalBoard();
@@ -700,19 +704,19 @@ class Game2048 {
             rowDivs.pop();
             index = verticalBoard[rowC].lastIndexOf(rowDivs.pop(), j - 1);
             verticalBoard[rowC].splice(index, 1, null);
-            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * 115}px);`;
+            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * moveWidth}px);`;
             animBoard[index][i].dataset.value = '';
           } else {
             let element = animBoard[j][i].textContent;
             index = verticalBoard[rowC].lastIndexOf(rowDivs.pop(), j - 1);
             verticalBoard[rowC].splice(index, 1, null);
-            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * 115}px);`;
+            animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * moveWidth}px);`;
             let buffer = animBoard[j][i];
             animBoard[j][i] = animBoard[index][i];
             animBoard[index][i] = buffer;
             index = verticalBoard[rowC].lastIndexOf(rowDivs.pop(), j - 2);
             if (index !== -1) {
-              animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * 115}px);`;
+              animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * moveWidth}px);`;
               verticalBoard[rowC].splice(index, 1, null);
             }
           }
@@ -720,7 +724,7 @@ class Game2048 {
           rowDivs.pop();
         } else if(animBoard[j][i].textContent === '' && rowDivs.length > 0) {
           let index = verticalBoard[rowC].lastIndexOf(rowDivs.pop(), j - 1);
-          animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * 115}px);`;
+          animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * moveWidth}px);`;
 
           let buffer = animBoard[j][i];
           animBoard[j][i] = animBoard[index][i];
