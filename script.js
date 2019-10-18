@@ -412,9 +412,9 @@ class Game2048 {
     this.createHtmlBoard();
     this.generateNewNumber();
     this.generateNewNumber();
+    
     document.addEventListener('keydown', this.pressKey.bind(this));
     document.querySelector('.newGame').addEventListener('click', this.newGame.bind(this));
-
     document.addEventListener('touchstart', this.touchStart.bind(this));
     document.addEventListener('touchend', this.touchEnd.bind(this));
   }
@@ -627,7 +627,7 @@ class Game2048 {
           } 
         } else if(row[i] === rowDivs[rowDivs.length - 1]) { 
           rowDivs.pop()
-        } else if(row[i].textContent === '' && rowDivs.length > 0) {
+        } else if(row[i].dataset.value === '' && rowDivs.length > 0) {
           let index = row.lastIndexOf(rowDivs.pop(), i - 1);
           row[index].style.cssText += `transition: transform 0.2s; transform: translate(${(i - index) * moveWidth}px, 0px);`;
 
@@ -676,7 +676,7 @@ class Game2048 {
           }
         } else if (animBoard[j][i] === rowDivs[0]) {
           rowDivs.shift();
-        } else if(animBoard[j][i].textContent === '' && rowDivs.length > 0) {
+        } else if(animBoard[j][i].dataset.value === '' && rowDivs.length > 0) {
           let index = verticalBoard[rowC].indexOf(rowDivs.shift(), j + 1);
           animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, -${(index - j) * moveWidth}px);`;
 
@@ -726,7 +726,7 @@ class Game2048 {
           }
         } else if (animBoard[j][i] === rowDivs[rowDivs.length - 1]) {
           rowDivs.pop();
-        } else if(animBoard[j][i].textContent === '' && rowDivs.length > 0) {
+        } else if(animBoard[j][i].dataset.value === '' && rowDivs.length > 0) {
           let index = verticalBoard[rowC].lastIndexOf(rowDivs.pop(), j - 1);
           animBoard[index][i].style.cssText += `transition: transform 0.2s; transform: translate(0px, ${(j - index) * moveWidth}px);`;
 
