@@ -13,11 +13,16 @@ body {
   width: 450px;
 }
 
+.scores_container {
+  display: flex;
+}
+
 .score_container {
   background-color: rgb(187, 173, 160);
-  width: 100px;
+  width: max-content;
+  padding: 10px;
   border-radius: 5%;
-  padding-top: 10px;
+  margin-left: 10px;
 }
 
 .score_text {

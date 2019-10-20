@@ -2,6 +2,7 @@ class Game2048 {
   constructor() {
     this.board = [];
     this.score = 0;
+    this.bestScore = localStorage.getItem('bestScore') === null ? 0 : localStorage.getItem('bestScore');
     this.startY;
     this.startX;
   }
@@ -9,13 +10,21 @@ class Game2048 {
   createHtmlBoard() {
     let boardValues = Array(16).fill('');
 
+    this.bestScore = localStorage.getItem('bestScore') === null ? 0 : localStorage.getItem('bestScore');
+
     document.body.innerHTML = `
       <nav class="nav">
         <button class="newGame">New Game</button>
-        <div class="score_container">
-          <div class="score_text">score</div>
-          <div class="score_counter">${this.score}</div>
-        </div>
+        <div class="scores_container">
+          <div class="score_container">
+            <div class="score_text">Best</div>
+            <div id="bestScore" class="score_counter">${this.bestScore}</div>
+          </div>
+          <div class="score_container">
+            <div class="score_text">score</div>
+            <div id="score" class="score_counter">${this.score}</div>
+          </div>
+        <div>
       </nav>
       <div class='grid'>
         ${boardValues.map(value => `<div class='grid__item'></div>`).join('')}
@@ -412,7 +421,7 @@ class Game2048 {
     this.createHtmlBoard();
     this.generateNewNumber();
     this.generateNewNumber();
-    
+
     document.addEventListener('keydown', this.pressKey.bind(this));
     document.querySelector('.newGame').addEventListener('click', this.newGame.bind(this));
     document.addEventListener('touchstart', this.touchStart.bind(this));
@@ -485,7 +494,13 @@ class Game2048 {
   }
 
   updateScore() {
-    document.querySelector('.score_counter').textContent = this.score;
+    document.querySelector('#score').textContent = this.score;
+
+    if (this.score > localStorage.getItem('bestScore')) {
+      this.bestScore = this.score;
+      document.querySelector('#bestScore').textContent = this.bestScore;
+      localStorage.setItem('bestScore', this.bestScore);  
+    }
   }
 
   touchStart(event) {
